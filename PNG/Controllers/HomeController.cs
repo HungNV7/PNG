@@ -1,7 +1,9 @@
 ﻿using PNG.Daos;
+using PNG.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,9 +32,23 @@ namespace PNG.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ViewResult Search(string categoryId)
+        public ActionResult Search(string categoryId)
         {
+            if (string.IsNullOrEmpty(categoryId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Category category = CategoryDAO.Instance.GetOneCategory(categoryId);
+            if(category == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                ViewBag.Product = ProductDAO.Instance.GetProduct(categoryId);
+                ViewBag.Category = CategoryDAO.Instance.GetAll();
+            }
             return View();
         }
     }
