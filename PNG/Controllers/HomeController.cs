@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNG.Daos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,8 @@ namespace PNG.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Product = ProductDAO.Instance.GetAll();
+            ViewBag.Category= CategoryDAO.Instance.GetAll();
             return View();
         }
 
@@ -24,6 +27,12 @@ namespace PNG.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult Search(string categoryId)
+        {
             return View();
         }
     }
