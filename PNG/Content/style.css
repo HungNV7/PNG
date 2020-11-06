@@ -1,0 +1,34 @@
+﻿body {
+    background-color: whitesmoke;
+}
+
+.body-content {
+    margin-top:5%;
+}
+
+.navbar-dark {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.card {
+    box-shadow: 0 0 3px 0 #000;
+    height: 50vh;
+    margin-bottom: 3%;
+}
+.product{
+    margin-top: 3vh;
+}
+
+.price{
+    font-weight: bold;
+    color: chocolate;
+}
+.category{
+    margin-top:2vh;
+    background-color: white;
+}
+
