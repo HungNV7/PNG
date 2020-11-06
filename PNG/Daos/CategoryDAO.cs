@@ -60,5 +60,35 @@ namespace PNG.Daos
             }
             return list;
         }
+
+        public Category GetOneCategory(string id)
+        {
+            Category category = null;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "SELECT categoryName FROM tblCategory WHERE categoryId = @id AND statusId = 3";              
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    conn.Open();      
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        if (reader.Read())
+                        {
+                            string categoryName = reader["categoryName"].ToString();
+                            category = new Category(id, categoryName, 3);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e);
+                }             
+            }
+            return category;
+        }
     }
 }
