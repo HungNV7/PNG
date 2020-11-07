@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using WebGrease.Css.Ast.Selectors;
 
 namespace PNG.Daos
 {
@@ -60,5 +61,98 @@ namespace PNG.Daos
             }
             return list;
         }
+
+        public bool AddCategory(Category category)
+        {
+            bool result = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "INSERT INTO tblCategory(categoryName,statusId) VALUES (@categoryName,3)";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                try
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@categoryName", category.CategoryName);
+                    
+                    int i = cmd.ExecuteNonQuery();
+
+                    if (i >= 1)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return result;
+            
+        }
+
+        
+        public bool UpdateCategory(Category category)
+        {
+            bool result = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "UPDATE tblCategory SET categoryName=@categoryName,statusId=@statusId WHERE categoryId=@categoryId";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                try
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@categoryName", category.CategoryName);
+                    cmd.Parameters.AddWithValue("@statusId", category.StatusID);
+                    cmd.Parameters.AddWithValue("@categoryId", category.CategoryID);
+                    int i = cmd.ExecuteNonQuery();
+                    
+                    if (i >= 1)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return result;
+        }
+
+        public void DeleteCategory(Category category)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "DELETE tblCategory WHERE categoryId=@categoryId";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                try
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@categoryId", category.CategoryID);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+
     }
 }
