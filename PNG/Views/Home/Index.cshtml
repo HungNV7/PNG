@@ -30,15 +30,25 @@
     </a>
 </div>
 
-<div class="category">
-    <ul class="list-group list-group-horizontal-md">
-        @foreach (Category category in ViewBag.Category)
+<div class="category row">
+    <div class="col-md-8">
+        <ul class="list-group list-group-horizontal-md">
+            @foreach (Category category in ViewBag.Category)
+            {
+                <li class="list-group-item">
+                    @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { categoryId = category.CategoryID }, htmlAttributes: null)
+                </li>
+            }
+
+        </ul>
+    </div>
+    <div class="col-md-4 col-sm-12" style="margin-top:0.5%;">
+        @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
         {
-            <li class="list-group-item">
-                @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { categoryId = category.CategoryID}, htmlAttributes: null )               
-            </li>
-        }    
-    </ul>
+            @Html.TextBox("SearchString", "", new { @class = "form-control mr-sm-2" })
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        }
+    </div>
 </div>
 
 <div class="row productList">
