@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Công ty cổ phần đá quý</title>
+    @Styles.Render("~/Content/fontawesome")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -27,18 +28,16 @@
                         @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
                 </ul>
-                @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
-                {
-                    @Html.TextBox("SearchString", "", new { @class = "form-control mr-sm-2" })
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                }
+                @Html.ActionLink("Your Cart", "ViewCart", "Cart", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0 nav-cart" })
+                @Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+
                     
             </div>
         </div>
     </nav>
     <div class="container body-content">
+        
         @RenderBody()
-        <hr />
         @*<footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>*@

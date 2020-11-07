@@ -119,8 +119,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\AdminController.cs" />
+=======
+    <Compile Include="Controllers\CartController.cs" />
+>>>>>>> 1560703586b6d43c69d985195d7c52ed841c823c
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\ProductDAO.cs" />
     <Compile Include="Global.asax.cs">
@@ -1551,8 +1556,11 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -1578,6 +1586,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+<<<<<<< HEAD
     <Content Include="AdminStyle\scss\sb-admin.scss" />
     <Content Include="AdminStyle\scss\_cards.scss" />
     <Content Include="AdminStyle\scss\_footer.scss" />
@@ -1645,6 +1654,13 @@
     <Content Include="AdminStyle\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="AdminStyle\vendor\jquery\jquery.min.map" />
     <Content Include="AdminStyle\vendor\jquery\jquery.slim.min.map" />
+=======
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+>>>>>>> 1560703586b6d43c69d985195d7c52ed841c823c
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1751,14 +1767,20 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+<<<<<<< HEAD
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Category.cshtml" />
     <Content Include="Views\Admin\AddCategory.cshtml" />
     <Content Include="Views\Admin\UpdateCategory.cshtml" />
+=======
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Product\Detail.cshtml" />
+>>>>>>> 1560703586b6d43c69d985195d7c52ed841c823c
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

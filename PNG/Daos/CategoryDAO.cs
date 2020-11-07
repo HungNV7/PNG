@@ -62,6 +62,7 @@ namespace PNG.Daos
             return list;
         }
 
+<<<<<<< HEAD
         public bool AddCategory(Category category)
         {
             bool result = false;
@@ -115,10 +116,32 @@ namespace PNG.Daos
                     if (i >= 1)
                     {
                         result = true;
+=======
+        public Category GetOneCategory(string id)
+        {
+            Category category = null;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "SELECT categoryName FROM tblCategory WHERE categoryId = @id AND statusId = 3";              
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    conn.Open();      
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        if (reader.Read())
+                        {
+                            string categoryName = reader["categoryName"].ToString();
+                            category = new Category(id, categoryName, 3);
+                        }
+>>>>>>> 1560703586b6d43c69d985195d7c52ed841c823c
                     }
                 }
                 catch (Exception e)
                 {
+<<<<<<< HEAD
                     Console.WriteLine(e);
                 }
                 finally
@@ -154,5 +177,13 @@ namespace PNG.Daos
         }
 
 
+=======
+
+                    Console.WriteLine(e);
+                }             
+            }
+            return category;
+        }
+>>>>>>> 1560703586b6d43c69d985195d7c52ed841c823c
     }
 }
