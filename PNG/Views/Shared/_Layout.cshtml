@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using PNG.Models
+@{ 
+    var user = Session["USER"] as Account;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,17 +25,38 @@
                     <li class="nav-item">
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
+                    @if (Session["USER"] != null && user.RoleID == 1)
+                    {
+                        @Html.ActionLink("Create Category", "Create", "Category", new { area = "" }, new { @class = "nav-link" })
+                        @Html.ActionLink("Create Product", "Create", "Product", new { area = "" }, new { @class = "nav-link" })
+                    }
                     <li class="nav-item">
                         @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })
                         </li>
                     <li class="nav-item">
                         @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
+                    @if (Session["USER"] != null)
+                    {
+                        <li class="nav-item disabled">
+                            <a class="nav-link">Welcome @user.UserName</a>
+                        </li>
+                       
+                    }
                 </ul>
-                @Html.ActionLink("Your Cart", "ViewCart", "Cart", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0 nav-cart" })
-                @Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0" })
-
-                    
+                @if (Session["USER"] == null)
+                {
+                    @Html.ActionLink("Your Cart", "ViewCart", "Cart", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0 nav-cart" })
+                    @Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+                }
+                else
+                {
+                    if (((Account)Session["USER"]).RoleID == 2)
+                    {
+                        @Html.ActionLink("Your Cart", "ViewCart", "Cart", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0 nav-cart" })
+                    }
+                    @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+                }
             </div>
         </div>
     </nav>
@@ -48,3 +73,5 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

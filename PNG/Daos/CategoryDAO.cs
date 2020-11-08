@@ -90,5 +90,28 @@ namespace PNG.Daos
             }
             return category;
         }
+
+        public bool AddNewCategory(Category c)
+        {
+            bool check = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "INSERT INTO tblCategory(categoryName, statusId) VALUES(@name, @id)";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", 3);
+                command.Parameters.AddWithValue("@name", c.CategoryName);
+                try
+                {
+                    conn.Open();
+                    check = command.ExecuteNonQuery() > 0;
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e);
+                }
+            }
+            return check;
+        }
     }
 }

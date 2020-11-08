@@ -51,5 +51,57 @@ namespace PNG.Controllers
             }
             return View();
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Account account)
+        {
+            Account user = AccountDAO.Instance.CheckLogin(account);
+            if(user == null)
+            {
+                TempData["LOGIN_FAIL"] = "Email or password is incorrect";
+                return View();
+            }
+            Session["USER"] = user;
+            return RedirectToAction("Index", "Home", null);
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Account account)
+        {
+                if (ModelState.IsValid)
+            {
+                if (AccountDAO.Instance.AddNewAccount(account))
+                {
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    return View();
+                }
+                
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Home", null);
+        }
     }
 }

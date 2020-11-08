@@ -41,9 +41,31 @@ h4{
 .fa-shopping-cart{
     color: red;
 }
-.form-control{
-    border: 1px solid blue;
+.form-control {
+    border: 1px solid black;
+    margin-right: 0;
+    padding-right: 0;
+    width: inherit;
 }
 .nav-cart{
-    margin-right: 1px;
+    margin-right: 1%;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+hr {
+    width: 80%;
+    margin-top: 20px;
+    border-top: 1px solid rgba(0,0,0,1);
+}
+
+.o {
+    background: #fff;
+    width: 25px;
+    margin: -29px auto 10px;
 }

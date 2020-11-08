@@ -36,7 +36,7 @@ namespace PNG.Models
                 quantity += CartDetail[p.ProductID].Quantity;
             }
             p.Quantity = quantity;
-            CartDetail.Add(p.ProductID, p);
+            CartDetail[p.ProductID] = p;
         }
     }
 }
