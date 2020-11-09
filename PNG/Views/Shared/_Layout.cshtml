@@ -30,18 +30,20 @@
                         @Html.ActionLink("Category", "Index", "Category", new { area = "" }, new { @class = "nav-link" })
                         @Html.ActionLink("Product", "Index", "Product", new { area = "" }, new { @class = "nav-link" })
                     }
-                    <li class="nav-item">
-                        @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })
+                    @if (Session["USER"] != null && user.RoleID == 2)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })
                         </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
-                    </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    } 
                     @if (Session["USER"] != null)
                     {
                         <li class="nav-item disabled">
                             <a class="nav-link">Welcome @user.UserName</a>
                         </li>
-                       
                     }
                 </ul>
                 @if (Session["USER"] == null)

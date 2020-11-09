@@ -38,7 +38,7 @@
                 if (category.StatusID == 3)
                 {
                     <li class="list-group-item">
-                        @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { search = category.CategoryID }, htmlAttributes: null)
+                        @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { categoryId = category.CategoryID }, htmlAttributes: null)
                     </li>
                 }
             }

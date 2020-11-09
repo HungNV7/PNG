@@ -34,7 +34,7 @@ namespace PNG.Daos
             List<Product> list = new List<Product>();
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM tblProduct WHERE statusId = 3 AND quantity > 0";
+                string sql = "SELECT * FROM tblProduct P, tblCategory C WHERE P.categoryId = C.categoryId AND C.statusId =3 AND P.statusId = 3 AND quantity > 0";
                 SqlCommand command = new SqlCommand(sql, conn);
                 try
                 {
@@ -71,7 +71,45 @@ namespace PNG.Daos
             List<Product> list = new List<Product>();
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM tblProduct WHERE statusId = 3 AND quantity > 0 AND productName LIKE @name";
+                string sql = "SELECT * FROM tblProduct P, tblCategory C WHERE P.categoryId = C.categoryId AND C.statusId =3 AND P.statusId = 3 AND quantity > 0 AND productName LIKE @name";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@name", "%" + search + "%");
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            string productId = reader["productId"].ToString();
+                            string productName = reader["productName"].ToString();
+                            int quantity = Convert.ToInt32(reader["quantity"].ToString());
+                            double price = Convert.ToDouble(reader["price"]);
+                            string description = reader["description"].ToString();
+                            string image = reader["image"].ToString();
+                            String categoryID = reader["categoryId"].ToString();
+                            int statusID = Convert.ToInt32(reader["statusId"].ToString());
+
+                            list.Add(new Product(productId, productName, quantity, (float)price, description, image, categoryID, statusID));
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e);
+                }
+            }
+            return list;
+        }
+
+        public List<Product> SearchForAdmin(string search)
+        {
+            List<Product> list = new List<Product>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "SELECT * FROM tblProduct WHERE productName LIKE @name";
                 SqlCommand command = new SqlCommand(sql, conn);
                 command.Parameters.AddWithValue("@name", "%" + search + "%");
                 try
@@ -109,7 +147,7 @@ namespace PNG.Daos
             List<Product> list = new List<Product>();
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM tblProduct WHERE statusId = 3 AND categoryId = @id AND quantity > 0";
+                string sql = "SELECT * FROM tblProduct P, tblCategory C WHERE P.categoryId = C.categoryId AND C.statusId = 3 AND P.statusId = 3 AND P.categoryId = @id AND quantity > 0";
                 SqlCommand command = new SqlCommand(sql, conn);
                 command.Parameters.AddWithValue("@id", categoryId);
                 try
@@ -147,7 +185,7 @@ namespace PNG.Daos
             Product p = null;
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM tblProduct WHERE statusId = 3 AND productId = @id AND quantity > 0";
+                string sql = "SELECT * FROM tblProduct P, tblCategory C WHERE P.categoryId = C.categoryId AND C.statusId =3 AND P.statusId = 3 AND productId = @id AND quantity > 0";
                 SqlCommand command = new SqlCommand(sql, conn);
                 command.Parameters.AddWithValue("@id", id);
                 try
@@ -243,6 +281,57 @@ namespace PNG.Daos
                 }
             }
             return list;
+        }
+
+        public bool Update(Product p)
+        {
+            bool check = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "UPDATE tblProduct SET productName = @name, quantity = @quantity, price = @price, categoryId = @categoryId, description = @description, image = @image, statusId = @statusId WHERE productId = @id";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@name", p.ProductName);
+                command.Parameters.AddWithValue("@quantity", p.Quantity);
+                command.Parameters.AddWithValue("@price", p.Price);
+                command.Parameters.AddWithValue("@categoryId", p.CategoryID);
+                command.Parameters.AddWithValue("@description", string.IsNullOrEmpty(p.Description) ? "" : p.Description);
+                command.Parameters.AddWithValue("@image", p.Image);
+                command.Parameters.AddWithValue("@statusId", p.StatusID);
+                command.Parameters.AddWithValue("@id", p.ProductID);
+                try
+                {
+                    conn.Open();
+                    check = command.ExecuteNonQuery() > 0;
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e.ToString());
+                }
+            }
+            return check;
+        }
+
+        public bool Delete(string id)
+        {
+            bool check = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "UPDATE tblProduct SET statusId = 4 WHERE productId = @id";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    conn.Open();
+                    check = command.ExecuteNonQuery() > 0;
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e.ToString());
+                }
+            }
+            return check;
         }
     }
 }

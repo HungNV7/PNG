@@ -50,14 +50,14 @@ h4{
 .nav-cart{
     margin-right: 1%;
 }
-a{
+/*a{
     text-decoration: none;
     color: black;
 }
 a:hover {
     text-decoration: none;
     color: black;
-}
+}*/
 hr {
     width: 80%;
     margin-top: 20px;
