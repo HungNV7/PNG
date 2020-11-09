@@ -1,10 +1,16 @@
 ﻿@model IEnumerable<PNG.Models.Category>
-
+@using PNG.Models
 @{
     ViewBag.Title = "Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h4 class="text-center">LIST CATEGORY</h4>
+@if (@TempData["DELETE_CATEGORY"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["DELETE_CATEGORY"]
+    </div>
+}
 @Html.ActionLink("Create New", "Create", "Category")
 <div class="row">
     <div class="col-2"></div>
@@ -21,15 +27,25 @@
                 <th></th>
             </tr>
 
-            @foreach (var item in Model)
+            @foreach (Category item in Model)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.CategoryName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StatusID)
-                    </td>
+                    
+                        @if (item.StatusID == 3)
+                        {
+                            <td>
+                                Available
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                Unavailable
+                            </td>
+                        }
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })

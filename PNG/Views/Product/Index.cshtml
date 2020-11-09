@@ -6,25 +6,29 @@
     ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (@TempData["DELETE_PRODUCT"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["DELETE_PRODUCT"]
+    </div>
+}
+@Html.ActionLink("New Product", "Create", "Product")
 <div class="category row">
     <div class="col-md-8">
         <ul class="list-group list-group-horizontal-md">
             @foreach (Category category in ViewBag.Category)
             {
-                if (category.StatusID == 3)
-                {
-                    <li class="list-group-item">
-                        @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { categoryId = category.CategoryID }, htmlAttributes: null)
-                    </li>
-                }
+                <li class="list-group-item">
+                    @Html.ActionLink((string)@category.CategoryName, "Search", "Product", new { categoryId = category.CategoryID }, htmlAttributes: null)
+                </li>
             }
 
         </ul>
     </div>
     <div class="col-md-4 col-sm-12" style="margin-top:0.5%;">
-        @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
+        @using (Html.BeginForm("Search", "Product", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
         {
-            @Html.TextBox("SearchString", "", new { @class = "form-control mr-sm-2" })
+            @Html.TextBox("search", "", new { @class = "form-control mr-sm-2" })
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
         }
     </div>

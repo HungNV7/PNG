@@ -32,27 +32,27 @@ namespace PNG.Controllers
             return View();
         }
 
-        public ActionResult Search(string search)
+        public ActionResult Search(string search, string categoryId = null)
         {
-            if (string.IsNullOrEmpty(search))
+            if (string.IsNullOrEmpty(categoryId))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Category category = CategoryDAO.Instance.GetOneCategory(search);
-            if(category == null)
-            {
-                List<Product> list = ProductDAO.Instance.Search(search);
-                if (list.Count > 0)
+                if (string.IsNullOrEmpty(search))
                 {
-                    ViewBag.Product = list;
-                    //ViewBag.Category = CategoryDAO.Instance.GetAll();
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    search = search.Trim();
+                    List<Product> list = ProductDAO.Instance.Search(search);
+                    if (list.Count > 0)
+                    {
+                        ViewBag.Product = list;
+                    }
                 }
             }
             else
             {
-                ViewBag.Product = ProductDAO.Instance.GetProduct(search);
-               // ViewBag.Category = CategoryDAO.Instance.GetAll();
+                ViewBag.Product = ProductDAO.Instance.GetProduct(categoryId);
             }
             ViewBag.Category = CategoryDAO.Instance.GetAll();
             return View();

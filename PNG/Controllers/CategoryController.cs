@@ -63,7 +63,7 @@ namespace PNG.Controllers
         {
             if (CategoryDAO.Instance.Delete(id))
             {
-                TempData["UPDATE_CATEGORY"] = "Update successfully!";
+                TempData["DELETE_CATEGORY"] = "Delete successfully!";
             }
             return RedirectToAction("Index");
         }

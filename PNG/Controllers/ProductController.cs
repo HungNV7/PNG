@@ -3,6 +3,7 @@ using PNG.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,7 +21,24 @@ namespace PNG.Controllers
 
         public ActionResult Detail(string id)
         {
-            Product p = ProductDAO.Instance.GetOneProduct(id);
+            Product p = null;
+            if (Session["USER"] == null)
+            {
+                p = ProductDAO.Instance.GetOneProduct(id);
+            }
+            else
+            {
+                Account user = Session["USER"] as Account;
+                if(user.RoleID == 2)
+                {
+                    p = ProductDAO.Instance.GetOneProduct(id);
+                }
+                else
+                {
+                    p = ProductDAO.Instance.GetAllForAdmin().Find(product => product.ProductID == id);
+                }
+            }
+            
             if(p == null)
             {
                 return HttpNotFound();
@@ -69,20 +87,65 @@ namespace PNG.Controllers
 
         public ActionResult Update(string id)
         {
-            Product p = ProductDAO.Instance.GetOneProduct(id);
+            Product p = ProductDAO.Instance.GetAllForAdmin().Find(product => product.ProductID == id);
             var dictionary = new Dictionary<int, string>
                 {
                     { 3, "Available" },
                     { 4, "Unavailable" }
                 };
+            List<Category> list = CategoryDAO.Instance.GetAll();
+            Session["CategoryList"] = ToSelectList(list);
+            Session["Status"] = new SelectList(dictionary, "Key", "Value");
+            return View(p);
+        }
 
-            Session["CATEGORY"] = new SelectList(dictionary, "Key", "Value");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(Product p)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ProductDAO.Instance.Update(p))
+                {
+                    TempData["UPDATE_Product"] = "Update product successfully!";
+                }
+            }
             return View();
         }
 
         public ActionResult Delete(string id)
         {
-            return RedirectToAction("Index", "Home", null);
+            if (ProductDAO.Instance.Delete(id))
+            {
+                TempData["DELETE_PRODUCT"] = "Delete product successfully!";
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Search(String search, string categoryId = null)
+        {
+            if (string.IsNullOrEmpty(categoryId))
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    search = search.Trim();
+                    List<Product> list = ProductDAO.Instance.SearchForAdmin(search);
+                    if (list.Count > 0)
+                    {
+                        ViewBag.Product = list;
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.Product = ProductDAO.Instance.GetAllForAdmin().FindAll(product => product.CategoryID == categoryId);
+            }
+            ViewBag.Category = CategoryDAO.Instance.GetAllForAdmin();
+            return View();
         }
     }
 }
