@@ -30,7 +30,7 @@
                         @Html.ActionLink("Category", "Index", "Category", new { area = "" }, new { @class = "nav-link" })
                         @Html.ActionLink("Product", "Index", "Product", new { area = "" }, new { @class = "nav-link" })
                     }
-                    @if (Session["USER"] != null && user.RoleID == 2)
+                    @if (Session["USER"] == null || (Session["USER"] != null && user.RoleID == 2))
                     {
                         <li class="nav-item">
                             @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })
@@ -39,6 +39,12 @@
                             @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                         </li>
                     } 
+                    @if (Session["USER"] != null && user.RoleID == 2)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("History Order", "History", "Cart", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
                     @if (Session["USER"] != null)
                     {
                         <li class="nav-item disabled">

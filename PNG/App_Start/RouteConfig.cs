@@ -22,6 +22,10 @@ namespace PNG
                 name: "SearchCategory",
                 url: "{controller}/{action}/{search}/{categoryId}"
             );
+            routes.MapRoute(
+                name: "UpdateProductCart",
+                url: "{controller}/{action}/{id}/{quantity}"
+            );
         }
     }
 }

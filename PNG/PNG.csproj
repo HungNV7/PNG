@@ -124,6 +124,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Daos\AccountDAO.cs" />
+    <Compile Include="Daos\CartDAO.cs" />
     <Compile Include="Daos\CategoryDAO.cs" />
     <Compile Include="Daos\ProductDAO.cs" />
     <Compile Include="Global.asax.cs">
@@ -294,10 +295,12 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Update.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Cart\ViewCart.cshtml" />
+    <Content Include="Views\Cart\CheckoutInfo.cshtml" />
+    <Content Include="Views\Cart\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
