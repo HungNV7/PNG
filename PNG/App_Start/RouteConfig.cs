@@ -20,7 +20,7 @@ namespace PNG
             );
             routes.MapRoute(
                 name: "SearchCategory",
-                url: "{controller}/{action}/{categoryId}"
+                url: "{controller}/{action}/{search}"
             );
         }
     }

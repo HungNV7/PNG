@@ -30,24 +30,38 @@
     </a>
 </div>
 
-<div class="category">
-    <ul class="list-group list-group-horizontal-md">
-        @foreach (Category category in ViewBag.Category)
+<div class="category row">
+    <div class="col-md-8">
+        <ul class="list-group list-group-horizontal-md">
+            @foreach (Category category in ViewBag.Category)
+            {
+                if (category.StatusID == 3)
+                {
+                    <li class="list-group-item">
+                        @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { search = category.CategoryID }, htmlAttributes: null)
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+    <div class="col-md-4 col-sm-12" style="margin-top:0.5%;">
+        @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
         {
-            <li class="list-group-item">
-                @Html.ActionLink((string)@category.CategoryName, "Search", "Home", new { categoryId = category.CategoryID }, htmlAttributes: null)
-            </li>
+            @Html.TextBox("search", "", new { @class = "form-control mr-sm-2" })
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
         }
-    </ul>
+    </div>
 </div>
 
-<div class="row product">
-    @foreach (Product product in ViewBag.Product)
+<div class="row" style="margin-top: 1%;">
+    @if (ViewBag.Product != null)
     {
-        
+        foreach (Product product in ViewBag.Product)
+        {
             <div class="col-md-4">
                 <a href="/Product/Detail/@product.ProductID ">
-                    <div class="card text-center mb-4 shadow-sm">
+                    <div class="card product text-center mb-4 shadow-sm">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><image href="~/Content/Resource/@product.Image" height="100%" width="100%" /></svg>
                         <div class="card-body">
                             <h5 class="card-title" style="font-size: 1rem;">@product.ProductName</h5>
@@ -55,7 +69,11 @@
                         </div>
                     </div>
                 </a>
-</div>
-       
+            </div>
+        }
+    }
+    else
+    {
+        <h5 class="text-center">No result</h5>
     }
 </div>
