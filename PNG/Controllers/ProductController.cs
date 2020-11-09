@@ -13,6 +13,8 @@ namespace PNG.Controllers
         // GET: Product
         public ActionResult Index()
         {
+            ViewBag.Product = ProductDAO.Instance.GetAllForAdmin();
+            ViewBag.Category = CategoryDAO.Instance.GetAllForAdmin();
             return View();
         }
 
@@ -63,6 +65,24 @@ namespace PNG.Controllers
                 });
             }
             return new SelectList(list, "Value", "Text"); ;
+        }
+
+        public ActionResult Update(string id)
+        {
+            Product p = ProductDAO.Instance.GetOneProduct(id);
+            var dictionary = new Dictionary<int, string>
+                {
+                    { 3, "Available" },
+                    { 4, "Unavailable" }
+                };
+
+            Session["CATEGORY"] = new SelectList(dictionary, "Key", "Value");
+            return View();
+        }
+
+        public ActionResult Delete(string id)
+        {
+            return RedirectToAction("Index", "Home", null);
         }
     }
 }

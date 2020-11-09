@@ -27,8 +27,8 @@
                     </li>
                     @if (Session["USER"] != null && user.RoleID == 1)
                     {
-                        @Html.ActionLink("Create Category", "Create", "Category", new { area = "" }, new { @class = "nav-link" })
-                        @Html.ActionLink("Create Product", "Create", "Product", new { area = "" }, new { @class = "nav-link" })
+                        @Html.ActionLink("Category", "Index", "Category", new { area = "" }, new { @class = "nav-link" })
+                        @Html.ActionLink("Product", "Index", "Product", new { area = "" }, new { @class = "nav-link" })
                     }
                     <li class="nav-item">
                         @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })

@@ -12,6 +12,7 @@ namespace PNG.Models
         [Required]
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
+        [Display(Name = "Status")]
         public int StatusID { get; set; }
 
         public Category()

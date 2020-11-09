@@ -13,7 +13,7 @@ namespace PNG.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            List<Category> list = CategoryDAO.Instance.GetAll();
+            List<Category> list = CategoryDAO.Instance.GetAllForAdmin();
             return View(list);
         }
 
@@ -32,16 +32,41 @@ namespace PNG.Controllers
             return View();
         }
 
-        public ActionResult Edit()
+        public ActionResult Edit(string id)
         {
-            return View();
+            Category c = CategoryDAO.Instance.GetOneCategory(id);
+            var dictionary = new Dictionary<int, string>
+                {
+                    { 3, "Available" },
+                    { 4, "Unavailable" }
+                };
+
+            Session["CATEGORY"] = new SelectList(dictionary, "Key", "Value");
+            return View(c);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category c)
         {
+            if (ModelState.IsValid)
+            {
+                if (CategoryDAO.Instance.Update(c))
+                {
+                    TempData["UPDATE_CATEGORY"] = "Update successfully!";
+                }
+            }
             return View();
         }
+
+        public ActionResult Delete(string id)
+        {
+            if (CategoryDAO.Instance.Delete(id))
+            {
+                TempData["UPDATE_CATEGORY"] = "Update successfully!";
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

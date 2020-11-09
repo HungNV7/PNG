@@ -10,6 +10,7 @@ namespace PNG.Models
     {
         public string ProductID { get; set; }
         [Required]
+        [Display(Name = "Name")]
         public string ProductName { get; set; }
         [Required]
         public int Quantity { get; set; }
@@ -20,6 +21,7 @@ namespace PNG.Models
         public string Image { get; set; }
         [Display(Name = "Category")]
         public string CategoryID { get; set; }
+        [Display(Name = "Status")]
         public int StatusID { get; set; }
 
         public Product()
