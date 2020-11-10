@@ -6,6 +6,12 @@
     ViewBag.Title = "PNG";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (@TempData["CHECKOUT_SUCCESS"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["CHECKOUT_SUCCESS"]
+    </div>
+}
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

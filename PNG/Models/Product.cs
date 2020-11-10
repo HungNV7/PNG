@@ -28,6 +28,14 @@ namespace PNG.Models
         {
         }
 
+        public Product(string productID, string productName, int quantity, float price)
+        {
+            ProductID = productID;
+            ProductName = productName;
+            Quantity = quantity;
+            Price = price;
+        }
+
         public Product(string productID, string productName, int quantity, float price, string description, string image, string categoryID, int statusId)
         {
             ProductID = productID;

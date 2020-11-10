@@ -333,5 +333,69 @@ namespace PNG.Daos
             }
             return check;
         }
+
+        public List<string> CheckQuantity(Cart cart)
+        {
+            List<string> list = new List<string>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    foreach (Product item in cart.CartDetail.Values)
+                    {
+                        SqlDataReader reader = null;
+                        string sql = "SELECT quantity FROM tblProduct WHERE productId = @id";
+                        SqlCommand command = new SqlCommand(sql, conn);
+                        command.Parameters.AddWithValue("@id", item.ProductID);
+                        reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            if (reader.Read())
+                            {
+                                int quantity = Convert.ToInt32(reader["quantity"].ToString());
+                                if(quantity < item.Quantity)
+                                {
+                                    list.Add(item.ProductName + " has only " + quantity + " in store.");
+                                }
+                            }
+                        }
+                        reader.Close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+            return list;
+        }
+
+        public bool UpdateQuanity(Cart cart)
+        {
+            bool check = true;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    foreach (Product item in cart.CartDetail.Values)
+                    {
+                        string sql = "UPDATE tblProduct SET quantity = quantity - @quantity WHERE productId = @id";
+                        SqlCommand command = new SqlCommand(sql, conn);
+                        command.Parameters.AddWithValue("@quantity", item.Quantity);
+                        command.Parameters.AddWithValue("@id", item.ProductID);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    check = false;
+                    Console.WriteLine(e.ToString());
+                }
+            }
+            return check;
+        }
     }
 }
