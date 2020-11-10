@@ -127,19 +127,28 @@ namespace PNG.Daos
                         while (reader.Read())
                         {
                             string orderId = reader["orderId"].ToString();
-                            listHistory.Add(new Cart(orderId));
+                            float totalPrice = (float)Convert.ToDouble(reader["totalPrice"].ToString());
+                            string payment = reader["paymentType"].ToString();
+                            int statusId = Convert.ToInt32(reader["statusId"].ToString());
+                            DateTime orderDate = (DateTime)reader["orderDate"];
+                            string phone = reader["phone"].ToString();
+                            string address = reader["address"].ToString();
+                            string name = reader["name"].ToString();
+                            Dictionary<string, Product> cartDetail = new Dictionary<string, Product>();
+
+                            listHistory.Add(new Cart(orderId, null, totalPrice, payment, statusId, orderDate, phone, address, name, cartDetail));
                         }
                     }
                     reader.Close();
                     sql = "SELECT P.productId, P.productName, O.price, O.quantity FROM tblOrderDetail O, tblProduct P WHERE O.productId = P.productId AND orderId = @orderId";
-                    command = new SqlCommand(sql, conn);
                     foreach (Cart item in listHistory)
                     {
+                        command = new SqlCommand(sql, conn);
                         command.Parameters.AddWithValue("@orderId", item.CartID);
                         reader = command.ExecuteReader();
                         if (reader.HasRows)
                         {
-                            if (reader.Read())
+                            while (reader.Read())
                             {
                                 string productId = reader["productId"].ToString();
                                 string productName = reader["productName"].ToString();
@@ -148,6 +157,7 @@ namespace PNG.Daos
                                 item.CartDetail[productId] = new Product(productId, productName, quantity, price);
                             }
                         }
+                        reader.Close();
                     }
                     
                 }

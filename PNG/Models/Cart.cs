@@ -26,12 +26,6 @@ namespace PNG.Models
         public Cart()
         {
         }
-
-        public Cart(string id)
-        {
-            CartID = id;
-        }
-
         public Cart(string cartId, Account account, float totalPrice, string payment, int statusId, DateTime orderDate, string phone, string address, string name, Dictionary<string, Product> cartDetail)
         {
             CartID = cartId;

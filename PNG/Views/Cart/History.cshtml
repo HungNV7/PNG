@@ -3,12 +3,14 @@
 @{
     ViewBag.Title = "Order History";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
 <h2 class="text-center">History</h2>
-
+<hr />
 @foreach (Cart item in Model)
 {
+    int count = 1;
     <div class="alert alert-secondary order" role="alert">
         <div class="row">
             <div class="col-6">
@@ -45,19 +47,20 @@
                 @foreach (Product product in item.CartDetail.Values)
                 {
                     <tr>
-                        <td></td>
+                        <td>@(count++)</td>
                         <td>@product.ProductName</td>
                         <td>@product.Quantity</td>
                         <td>@product.Price $</td>
                         <td>@(product.Quantity*product.Price) $</td>
                     </tr>
                 }
+
                 <tr>
-                    <td>Total</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>@item.TotalPrice $</td>
+                    <td><b>Total</b></td>
+                    <td><b style="color:chocolate">@item.TotalPrice $</b></td>
                 </tr>
             </tbody>
         </table>

@@ -3,7 +3,6 @@
     ViewBag.Title = "ViewCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Cart cart = Session["CART"] as Cart;
-    int count = 1;
 }
 @if (TempData["OUT_OF_STOCK"] != null)
 {
@@ -30,6 +29,7 @@
 {
     if (cart.CartDetail != null && cart.CartDetail.Count > 0)
     {
+        int count = 1;
         <table class="table table-striped">
             <thead>
                 <tr>

@@ -31,7 +31,7 @@ namespace PNG.Models
         public Product(string productID, string productName, int quantity, float price)
         {
             ProductID = productID;
-            ProductName = ProductName;
+            ProductName = productName;
             Quantity = quantity;
             Price = price;
         }
