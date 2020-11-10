@@ -9,12 +9,13 @@ using System.Web.Mvc;
 
 namespace PNG.Controllers
 {
+    
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
             ViewBag.Product = ProductDAO.Instance.GetAll();
-            ViewBag.Category= CategoryDAO.Instance.GetAll();
+            ViewBag.Category = CategoryDAO.Instance.GetAll();
             return View();
         }
 
