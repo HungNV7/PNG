@@ -11,12 +11,12 @@
         @TempData["DELETE_CATEGORY"]
     </div>
 }
-@Html.ActionLink("Create New", "Create", "Category")
+@Html.ActionLink("Create New", "Create", "Category", htmlAttributes: new { @class = "btn btn-danger" })
 <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
 
-        <table class="table">
+        <table class="table table-striped">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.CategoryName)

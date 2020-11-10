@@ -12,6 +12,7 @@ namespace PNG.Controllers
     public class ProductController : Controller
     {
         // GET: Product
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             ViewBag.Product = ProductDAO.Instance.GetAllForAdmin();
@@ -46,6 +47,7 @@ namespace PNG.Controllers
             return View(p);
         }
 
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             List<Category> list = CategoryDAO.Instance.GetAll();
@@ -55,6 +57,7 @@ namespace PNG.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Product p)
         {
             if (ModelState.IsValid)
@@ -85,6 +88,7 @@ namespace PNG.Controllers
             return new SelectList(list, "Value", "Text"); ;
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(string id)
         {
             Product p = ProductDAO.Instance.GetAllForAdmin().Find(product => product.ProductID == id);
@@ -101,6 +105,7 @@ namespace PNG.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(Product p)
         {
             if (ModelState.IsValid)
@@ -113,6 +118,7 @@ namespace PNG.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
             if (ProductDAO.Instance.Delete(id))
@@ -122,6 +128,7 @@ namespace PNG.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Search(String search, string categoryId = null)
         {
             if (string.IsNullOrEmpty(categoryId))

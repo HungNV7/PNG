@@ -17,7 +17,6 @@ namespace PNG.Models
         [Required]
         public float Price { get; set; }
         public string Description { get; set; }
-        [Required]
         public string Image { get; set; }
         [Display(Name = "Category")]
         public string CategoryID { get; set; }

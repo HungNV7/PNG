@@ -13,15 +13,16 @@ namespace PNG.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            return View();
+            return View("ViewCart");
         }
 
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult ViewCart()
         {
             return View();
         }
 
-
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult Add(string id)
         {
             Cart cart = null;
@@ -42,6 +43,7 @@ namespace PNG.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult Update(string id, int quantity)
         {
             Cart cart = Session["CART"] as Cart;
@@ -53,6 +55,7 @@ namespace PNG.Controllers
             return RedirectToAction("ViewCart");
         }
 
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult Delete(string id)
         {
             Cart cart = Session["CART"] as Cart;
@@ -64,6 +67,7 @@ namespace PNG.Controllers
             return RedirectToAction("ViewCart");
         }
 
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult CheckoutInfo()
         {
             if(Session["USER"] == null)
@@ -100,6 +104,7 @@ namespace PNG.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
         public ActionResult Checkout(Cart c)
         {
             if (ModelState.IsValid)
@@ -127,6 +132,7 @@ namespace PNG.Controllers
             return View("CheckoutInfo");
         }
 
+        [Authorize(Roles = "Member")]
         public ActionResult History()
         {
             Account user = Session["USER"] as Account;
