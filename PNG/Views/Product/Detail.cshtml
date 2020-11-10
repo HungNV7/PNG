@@ -1,5 +1,5 @@
 ﻿@model PNG.Models.Product
-
+@using PNG.Models
 @{
     ViewBag.Title = "Product Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -38,7 +38,10 @@
                     </div>
       
                     <br />
-                    <a href="/Cart/Add/@Model.ProductID" class="btn btn-primary btn-lg btn-block">Thêm vào giỏ hàng</a>
+                    @if (Session["USER"] == null || (Session["USER"] != null && ((Account)Session["USER"]).RoleID != 1))
+                    {
+                        <a href="/Cart/Add/@Model.ProductID" class="btn btn-primary btn-lg btn-block">Thêm vào giỏ hàng</a>
+                    }
                 </div>
             </div>
         </div>

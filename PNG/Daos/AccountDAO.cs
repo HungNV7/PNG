@@ -60,6 +60,34 @@ namespace PNG.Daos
             return account;
         }
 
+        public int GetRoleId(string email)
+        {
+            int roleId = -1;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "SELECT roleId FROM tblAccount WHERE email = @email AND statusID = 1";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@email", email);
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        if (reader.Read())
+                        {                          
+                             roleId = Convert.ToInt32(reader["roleId"].ToString());                        
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            return roleId;
+        }
+
         public bool AddNewAccount(Account account)
         {
             bool check = false;

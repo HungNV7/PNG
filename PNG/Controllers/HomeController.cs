@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace PNG.Controllers
 {
@@ -16,9 +17,15 @@ namespace PNG.Controllers
         {
             ViewBag.Product = ProductDAO.Instance.GetAll();
             ViewBag.Category = CategoryDAO.Instance.GetAll();
+
+            if(Session["USER"] == null)
+            {
+                FormsAuthentication.SetAuthCookie("", false);
+            }
             return View();
         }
 
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -26,6 +33,7 @@ namespace PNG.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Member, Guest")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -65,7 +73,6 @@ namespace PNG.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(Account account)
         {
             Account user = AccountDAO.Instance.CheckLogin(account);
@@ -75,6 +82,7 @@ namespace PNG.Controllers
                 return View();
             }
             Session["USER"] = user;
+            FormsAuthentication.SetAuthCookie(account.Email, true);
             return RedirectToAction("Index", "Home", null);
         }
 
@@ -96,8 +104,7 @@ namespace PNG.Controllers
                 else
                 {
                     return View();
-                }
-                
+                } 
             }
             else
             {
@@ -109,6 +116,11 @@ namespace PNG.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index", "Home", null);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

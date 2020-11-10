@@ -11,12 +11,14 @@ namespace PNG.Controllers
     public class CategoryController : Controller
     {
         // GET: Category
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             List<Category> list = CategoryDAO.Instance.GetAllForAdmin();
             return View(list);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -24,6 +26,7 @@ namespace PNG.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Category c)
         {
             if(CategoryDAO.Instance.AddNewCategory(c)){
@@ -32,6 +35,7 @@ namespace PNG.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             Category c = CategoryDAO.Instance.GetOneCategory(id);
@@ -47,6 +51,7 @@ namespace PNG.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Category c)
         {
             if (ModelState.IsValid)
@@ -59,6 +64,7 @@ namespace PNG.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
             if (CategoryDAO.Instance.Delete(id))
