@@ -290,12 +290,17 @@ namespace PNG.Daos
             {
                 string sql = "UPDATE tblProduct SET productName = @name, quantity = @quantity, price = @price, categoryId = @categoryId, description = @description, image = @image, statusId = @statusId WHERE productId = @id";
                 SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@image", p.Image);
+                if (string.IsNullOrEmpty(p.Image))
+                {
+                    sql = "UPDATE tblProduct SET productName = @name, quantity = @quantity, price = @price, categoryId = @categoryId, description = @description, statusId = @statusId WHERE productId = @id";
+                    command = new SqlCommand(sql, conn);
+                }
                 command.Parameters.AddWithValue("@name", p.ProductName);
                 command.Parameters.AddWithValue("@quantity", p.Quantity);
                 command.Parameters.AddWithValue("@price", p.Price);
                 command.Parameters.AddWithValue("@categoryId", p.CategoryID);
                 command.Parameters.AddWithValue("@description", string.IsNullOrEmpty(p.Description) ? "" : p.Description);
-                command.Parameters.AddWithValue("@image", p.Image);
                 command.Parameters.AddWithValue("@statusId", p.StatusID);
                 command.Parameters.AddWithValue("@id", p.ProductID);
                 try
