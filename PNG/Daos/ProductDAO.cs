@@ -242,11 +242,13 @@ namespace PNG.Daos
             SqlCommand cmd = new SqlCommand(sql, cn);
             try
             {
-                if (p.Image != null)
+                
+                if (!string.IsNullOrEmpty(p.Image))
                 {
                     sql = "UPDATE tblProduct SET productName = @productName, quantity = @quantity, price = @price, " +
-                    "categoryId = @categoryId, description = @description, image = @image, statusId = @statusId WHERE productId = @productId ";
+                    " categoryId = @categoryId, description = @description, image = @image, statusId = @statusId WHERE productId = @productId ";
                     cmd = new SqlCommand(sql, cn);
+
                     cmd.Parameters.AddWithValue("@image", p.Image);
                 }
                 cmd.Parameters.AddWithValue("@productName", p.ProductName);
@@ -256,6 +258,10 @@ namespace PNG.Daos
                 cmd.Parameters.AddWithValue("@description", string.IsNullOrEmpty(p.Description) ? "" : p.Description);
                 cmd.Parameters.AddWithValue("@statusId", p.StatusID);
                 cmd.Parameters.AddWithValue("@productId", p.ProductID);
+                if (cn.State == ConnectionState.Closed)
+                {
+                    cn.Open();
+                }
                 check = cmd.ExecuteNonQuery() > 0;
             }
             catch (Exception e)
@@ -266,13 +272,13 @@ namespace PNG.Daos
             {
                 cn.Close();
             }
-            return false;
+            return check;
         }
 
         public bool Delete(string id)
         {
             bool check = false;
-            string sql = "UPDATE product SET statusId = 4 WHERE productId = @productId";
+            string sql = "UPDATE tblProduct SET statusId = 4 WHERE productId = @productId";
             SqlConnection cn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sql, cn);
             try
@@ -298,20 +304,23 @@ namespace PNG.Daos
         public bool AddNewProduct(Product p)
         {
             bool check = false;
-            string sql = "INSERT INTO tblProduct(productId, productName, quantity, price, categoryId, description, image, statusId ) " +
-                        "VALUES(@productId, @productName, @quantity, @price,  @categoryId, @description, @image , 3)";
+            string sql = "INSERT INTO tblProduct( productName, quantity, price, categoryId, description, image, statusId) " +
+                        "VALUES( @productName, @quantity, @price,  @categoryId, @description, @image , @statusId)";
             SqlConnection cn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sql, cn);
             try
             {
-                cmd.Parameters.AddWithValue("@productId", p.ProductID);
                 cmd.Parameters.AddWithValue("@image", p.Image);
                 cmd.Parameters.AddWithValue("@productName", p.ProductName);
                 cmd.Parameters.AddWithValue("@quantity", p.Quantity);
                 cmd.Parameters.AddWithValue("@price", p.Price);
                 cmd.Parameters.AddWithValue("@categoryId", p.CategoryID);
                 cmd.Parameters.AddWithValue("@description", string.IsNullOrEmpty(p.Description) ? "" : p.Description);
-                cmd.Parameters.AddWithValue("@statusId", p.StatusID);
+                cmd.Parameters.AddWithValue("@statusId", 3);
+                if (cn.State == ConnectionState.Closed)
+                {
+                    cn.Open();
+                }
                 check = cmd.ExecuteNonQuery() > 0;
             }
             catch (Exception e)
@@ -328,42 +337,40 @@ namespace PNG.Daos
 
         public Product GetOneProduct(string id)
         {
-            Product result = null;
-            string sql = "SELECT productName, quantity, price, categoryId, description, image, tblProduct.statusId FROM tblProduct WHERE productId = @productId ";
-            SqlConnection cn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(sql, cn);
-            try
+            Product p = null;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-
-                if (cn.State == ConnectionState.Closed)
+                string sql = "SELECT * FROM tblProduct P, tblCategory C WHERE P.categoryId = C.categoryId AND C.statusId =3 AND P.statusId = 3 AND productId = @id AND quantity > 0";
+                SqlCommand command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+                try
                 {
-                    cn.Open();
-                }
-                SqlDataReader rd = cmd.ExecuteReader();
-                if (rd.HasRows)
-                {
-                    while (rd.Read())
+                    conn.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
                     {
-                        string proName = rd.GetString(1);
-                        int quantity = rd.GetInt32(2);
-                        float price = (float)rd.GetDecimal(3);
-                        string cateId = rd.GetGuid(4).ToString();
-                        string des = rd.GetString(5);
-                        string image = rd.GetString(6);
-                        int statusId = rd.GetInt32(7);
-                        result = new Product(id, proName, quantity, price, des, image, cateId, statusId);
+                        while (reader.Read())
+                        {
+                            string productId = reader["productId"].ToString();
+                            string productName = reader["productName"].ToString();
+                            int quantity = Convert.ToInt32(reader["quantity"].ToString());
+                            double price = Convert.ToDouble(reader["price"]);
+                            string description = reader["description"].ToString();
+                            string image = reader["image"].ToString();
+                            String categoryID = reader["categoryId"].ToString();
+                            int statusID = Convert.ToInt32(reader["statusId"].ToString());
+
+                            p = new Product(productId, productName, quantity, (float)price, description, image, categoryID, statusID);
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e);
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            finally
-            {
-                cn.Close();
-            }
-            return result;
+            return p;
         }
 
         public List<string> CheckQuantity(Cart cart)

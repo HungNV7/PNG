@@ -128,7 +128,7 @@ namespace PNG.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Search(String search, string categoryId = null)
+        public ActionResult Search(string search, string categoryId = null)
         {
             if (string.IsNullOrEmpty(categoryId))
             {
