@@ -171,7 +171,7 @@ namespace PNG.Daos
                         string des = rd.GetString(5);
                         string image = rd.GetString(6);
                         int statusId = rd.GetInt32(7);
-                        Product product = new Product(proId, proName, quantity, price, cateId, des, image, statusId);
+                        Product product = new Product(proId, proName, quantity, price, des, image, cateId, statusId);
                         if (result == null)
                         {
                             result = new List<Product>();
@@ -220,7 +220,7 @@ namespace PNG.Daos
                         string des = rd.GetString(5);
                         string image = rd.GetString(6);
                         int statusId = rd.GetInt32(7);
-                        Product product = new Product(proId, proName, quantity, price, cateId, des, image, statusId);
+                        Product product = new Product(proId, proName, quantity, price, des, image, cateId, statusId);
                         result.Add(product);
                     }
                 }
@@ -351,7 +351,7 @@ namespace PNG.Daos
                         string des = rd.GetString(5);
                         string image = rd.GetString(6);
                         int statusId = rd.GetInt32(7);
-                        result = new Product(id, proName, quantity, price, cateId, des, image, statusId);
+                        result = new Product(id, proName, quantity, price, des, image, cateId, statusId);
                     }
                 }
             }
