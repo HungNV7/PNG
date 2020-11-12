@@ -67,6 +67,7 @@ namespace PNG.Controllers
             return View();
         }
 
+
         public ActionResult Login()
         {
             return View();
@@ -92,7 +93,6 @@ namespace PNG.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Register(Account account)
         {
                 if (ModelState.IsValid)
