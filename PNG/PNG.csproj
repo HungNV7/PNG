@@ -146,6 +146,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Resource\dong-ho-nam-day-cao-su-fossil-fs5536.png" />
+    <Content Include="Content\Resource\ES4650_Desktop_1.jpg" />
+    <Content Include="Content\Resource\gd0000y000283-day-chuyen-vang-18k-pnj-day-dan-kieu-chu-cong.png" />
+    <Content Include="Content\Resource\gndrya01732.5a0-nhan-cuoi-kim-cuong-pnj-chung-doi-vang-18k.png" />
+    <Content Include="Content\Resource\LTP-E143DBL-5ADR_Desktop_1.jpg" />
+    <Content Include="Content\Resource\op1_TSPhongthuy_FloorBanner_-Desk.jpg" />
+    <Content Include="Content\Resource\op_HomeBanner-Desk_LongLay-KimCuong.jpg" />
+    <Content Include="Content\Resource\snxm00k000088-nhan-bac-dinh-da-pnjsilver01.png" />
+    <Content Include="Content\Resource\UDT11-home-desktop-floor_banner-1200x450.jpg" />
+    <Content Include="Content\Resource\Đồng_Hồ_Orient_Nam_FUNG2001D0_Dây_Thép_Không_Gỉ_42mm_-_1.jpg" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
