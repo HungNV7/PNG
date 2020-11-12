@@ -104,7 +104,6 @@ namespace PNG.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public ActionResult Update(Product p)
         {
